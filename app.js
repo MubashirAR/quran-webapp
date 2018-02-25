@@ -17,14 +17,6 @@ app.config(function ($routeProvider) {
 		template: '<h1>None</h1><p>Nothing has been selected</p>'
 	});
 });
-app.controller('mainCtrl',function ($scope,$http) {
-	
-
-	
-
-	
-	
-});
 
 app.controller('editionsCtrl',function ($scope,$http) {
 	$scope.editions = [];
@@ -85,7 +77,7 @@ app.controller('ayahsCtrl',function ($scope,$http,$routeParams) {
 	var identifier = $routeParams.identifier;
 	var surahNumber = $routeParams.surahNumber;
 
-	$scope.chooseSurah = function () {
+	$scope.chooseAyah = function () {
 		$http({
 		  method: 'GET',
 		  url: 'http://api.alquran.cloud/surah/'+ surahNumber + '/' + identifier
