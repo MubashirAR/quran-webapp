@@ -1,21 +1,5 @@
-var app = angular.module('quranApp',['ngRoute']);
-app.config(function ($routeProvider) {
-	$routeProvider
-	.when('/',{
-		templateUrl: 'editions.html',
-		controller: 'editionsCtrl'
-	})
-	.when('/surahs/:identifier',{
-		templateUrl: 'surahs.html',
-		controller: 'surahsCtrl'
-	})
-	.when('/ayahs/:identifier/:surahNumber',{
-		templateUrl: 'ayahs.html',
-		controller: 'ayahsCtrl'
-	})
-	.otherwise({
-		template: '<h1>None</h1><p>Nothing has been selected</p>'
-	});
+app.controller('homeCtrl',function ($scope) {
+
 });
 
 app.controller('editionsCtrl',function ($scope,$http) {
@@ -23,6 +7,7 @@ app.controller('editionsCtrl',function ($scope,$http) {
 
 	//Get all Editions // This method is called by ng-init at the time of loading the app
 	$scope.getEditions = function () {
+		console.log('getEditions');
 		$http({
 		  method: 'GET',
 		  url: 'http://api.alquran.cloud/edition'
@@ -42,11 +27,11 @@ app.controller('surahsCtrl',function ($scope,$http,$routeParams) {
 		console.log(identifier);
 		$http({
 		  method: 'GET',
-		  url: 'http://api.alquran.cloud/quran/'+ identifier
+		  url: 'http://api.alquran.cloud/surah'
 		}).then(function successCallback(response) {
 			//Store the data object in $scope.surahs
 			console.log(response.data.data)
-		    $scope.surahs = response.data.data.surahs;
+		    $scope.surahs = response.data.data;
 		    $scope.identifier = identifier;
 		    $scope.editions = [];
 		  }, function errorCallback(response) {
@@ -81,6 +66,25 @@ app.controller('ayahsCtrl',function ($scope,$http,$routeParams) {
 		$http({
 		  method: 'GET',
 		  url: 'http://api.alquran.cloud/surah/'+ surahNumber + '/' + identifier
+		}).then(function successCallback(response) {
+			//Store the data object in $scope.ayahs
+			console.log(response.data.data);
+		    $scope.ayahs = response.data.data.ayahs;
+		  }, function errorCallback(response) {
+		    console.log(response);
+		  });
+	}
+});
+
+app.controller('juzCtrl',function ($scope,$http,$routeParams) {
+
+	var identifier = $routeParams.identifier;
+	var juzNumber = $routeParams.juzNumber;
+
+	$scope.chooseJuz = function () {
+		$http({
+		  method: 'GET',
+		  url: 'http://api.alquran.cloud/juz/'+ juzNumber + '/' + identifier
 		}).then(function successCallback(response) {
 			//Store the data object in $scope.ayahs
 			console.log(response.data.data)
