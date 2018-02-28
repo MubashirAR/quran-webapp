@@ -1,4 +1,4 @@
-<div ng-init="getEditions();">
+<div ng-init="getEditions();getEditionsLanguages();">
 	<div ng-repeat="edition in editions" style="border: solid 1px black; padding: 2px">
 		<a ng-href="#!/surahs/{{edition.identifier}}" >{{edition.englishName}}</a>[ {{edition.language}} ] [ {{edition.type}} ]
 	</div>

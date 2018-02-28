@@ -18,6 +18,19 @@ app.controller('editionsCtrl',function ($scope,$http) {
 		    console.log(response.error);
 		  });
 	};
+
+	$scope.getEditionsLanguages = function () {
+		$http({
+		  method: 'GET',
+		  url: 'http://api.alquran.cloud/edition/language'
+		}).then(function successCallback(response) {
+			//Store the data array in $scope.editions
+		    $scope.languages = response.data.data;
+		    console.log($scope.languages);
+		  }, function errorCallback(response) {
+		    console.log(response.error);
+		  });
+	};
 });
 
 app.controller('surahsCtrl',function ($scope,$http,$routeParams) {
