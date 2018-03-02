@@ -1,0 +1,11 @@
+
+.editionsDropdown {
+	height: 20vw;
+	overflow: auto;
+}
+
+.ayah {
+	font-size: 30px;
+	width: 100%;
+	text-align: right;
+}

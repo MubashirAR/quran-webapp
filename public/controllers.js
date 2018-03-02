@@ -1,11 +1,9 @@
-app.controller('homeCtrl',function ($scope) {
-
-});
-
-app.controller('editionsCtrl',function ($scope,$http) {
-	$scope.editions = [];
-
+app.controller('navbarCtrl',function ($scope,$http,$rootScope) {
 	//Get all Editions // This method is called by ng-init at the time of loading the app
+	if ($rootScope.identifier === undefined) {
+		$rootScope.identifier = 'ar.muyassar';	
+	}
+	
 	$scope.getEditions = function () {
 		console.log('getEditions');
 		$http({
@@ -18,6 +16,28 @@ app.controller('editionsCtrl',function ($scope,$http) {
 		    console.log(response.error);
 		  });
 	};
+
+	$scope.saveIdentifier = function (identifier) {
+		$rootScope.identifier = identifier;
+	}
+});
+
+app.controller('editionsCtrl',function ($scope,$http) {
+	$scope.editions = [];
+
+	// //Get all Editions // This method is called by ng-init at the time of loading the app
+	// $scope.getEditions = function () {
+	// 	console.log('getEditions');
+	// 	$http({
+	// 	  method: 'GET',
+	// 	  url: 'http://api.alquran.cloud/edition'
+	// 	}).then(function successCallback(response) {
+	// 		//Store the data array in $scope.editions
+	// 	    $scope.editions = response.data.data;
+	// 	  }, function errorCallback(response) {
+	// 	    console.log(response.error);
+	// 	  });
+	// };
 
 	$scope.getEditionsLanguages = function () {
 		$http({
@@ -33,9 +53,15 @@ app.controller('editionsCtrl',function ($scope,$http) {
 	};
 });
 
-app.controller('surahsCtrl',function ($scope,$http,$routeParams) {
+app.controller('listJuzCtrl',function ($scope) {
+	$scope.juzNumbers = [];
+	for (var i = 1; i <= 30; i++) {
+		$scope.juzNumbers.push(i);
+	}
+})
 
-	var identifier = $routeParams.identifier;
+app.controller('surahsCtrl',function ($scope,$http,$stateParams) {
+	var identifier = $stateParams.identifier;
 	$scope.getCompleteQuran = function () {
 		console.log(identifier);
 		$http({
@@ -70,10 +96,11 @@ app.controller('surahsCtrl',function ($scope,$http,$routeParams) {
 });
 
 
-app.controller('ayahsCtrl',function ($scope,$http,$routeParams) {
+app.controller('ayahsCtrl',function ($scope,$http,$stateParams) {
+	console.log('ayahsCtrl');
 
-	var identifier = $routeParams.identifier;
-	var surahNumber = $routeParams.surahNumber;
+	var identifier = $stateParams.identifier;
+	var surahNumber = $stateParams.surahNumber;
 
 	$scope.chooseAyah = function () {
 		$http({
