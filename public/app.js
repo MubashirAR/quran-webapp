@@ -1,7 +1,8 @@
 var app = angular.module('quranApp',['ui.router']);
 
-/* ------------ ROUTES -------------*/
-app.config(function ($stateProvider) {
+/* ------------ STATES -------------*/
+app.config(function ($stateProvider,$urlRouterProvider) {
+	$urlRouterProvider.otherwise('/notFound');
 	$stateProvider
 		.state('home',{
 			url: '',
@@ -77,6 +78,31 @@ app.config(function ($stateProvider) {
 				'body': {
 					templateUrl: '/html/juz.html',
 					controller: 'juzCtrl'
+				}
+			}
+		})
+		.state('resources',{
+			url: '/resources/:type',
+			views: {
+				'navbar': {
+					templateUrl: '/html/navbar.html',
+					controller: 'navbarCtrl'
+				},
+				'body': {
+					templateUrl: '/html/resources.html',
+					controller: 'resourcesCtrl'
+				}
+			}
+		})
+		.state('notFound',{
+			url: '/notFound',
+			views: {
+				'navbar': {
+					templateUrl: '/html/navbar.html',
+					controller: 'navbarCtrl'
+				},
+				'body': {
+					template: '404 not found',
 				}
 			}
 		})

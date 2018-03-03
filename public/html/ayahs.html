@@ -1,7 +1,7 @@
 <div ng-init="chooseAyah()">
-	
+	<div ng-repeat="ayah in ayahs" class="ayah">
+		{{ayah.text}} <span class="ayahNumber">{{ayah.number}}</span> 
+	</div>
 </div>
-	<p ng-repeat="ayah in ayahs" class="ayah">
-		{{ayah.text}} 
-	</p>
+	
 		
