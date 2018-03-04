@@ -2,7 +2,7 @@ var app = angular.module('quranApp',['ui.router']);
 
 /* ------------ STATES -------------*/
 app.config(function ($stateProvider,$urlRouterProvider) {
-	$urlRouterProvider.otherwise('/notFound');
+	$urlRouterProvider.otherwise('/surahs');
 	$stateProvider
 		.state('home',{
 			url: '',

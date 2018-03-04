@@ -7,8 +7,16 @@ app.controller('navbarCtrl',function ($scope,$http,$rootScope,apiService) {
 		$rootScope.type = 'all';	
 	};
 
+	if ($rootScope.language === undefined) {
+		$rootScope.language = 'en';	
+	};
+
 	apiService.editions(function(editions) {
 		 $scope.editions = editions;
+	});
+
+	apiService.languages(function(languages) {
+		 $scope.languages = languages;
 	});
 
 	apiService.types(function(types) {
@@ -24,24 +32,15 @@ app.controller('navbarCtrl',function ($scope,$http,$rootScope,apiService) {
 	$scope.saveIdentifier = function (identifier) {
 		$rootScope.identifier = identifier;
 	};
+
+	$scope.setLanguage = function (language) {
+		$rootScope.language = language;
+	};
 });
 
 app.controller('editionsCtrl',function ($scope,$http,apiService) {
 	$scope.editions = [];
 	$scope.languages =[];
-
-	// $scope.getEditionsLanguages = function () {
-	// 	$http({
-	// 	  method: 'GET',
-	// 	  url: 'http://api.alquran.cloud/edition/language'
-	// 	}).then(function successCallback(response) {
-	// 		//Store the data array in $scope.editions
-	// 	    $scope.languages = response.data.data;
-	// 	    console.log($scope.languages);
-	// 	  }, function errorCallback(response) {
-	// 	    console.log(response.error);
-	// 	  });
-	// };
 
 	apiService.editions(function(editions) {
 		 $scope.editions = editions;
@@ -63,50 +62,18 @@ app.controller('listJuzCtrl',function ($scope,$rootScope) {
 
 app.controller('surahsCtrl',function ($scope,$http,$stateParams,apiService) {
 
-	var identifier = $stateParams.identifier;
-	$scope.identifier = identifier;
-
 	apiService.quran(function(quran) {
 		 $scope.surahs = quran;
 	});
-
-	// $scope.chooseSurah = function () {
-	// 	$http({
-	// 	  method: 'GET',
-	// 	  url: 'http://api.alquran.cloud/surah/'+ identifier + surahNumber
-	// 	}).then(function successCallback(response) {
-	// 		//Store the data object in $scope.surahs
-	// 		console.log(response.data.data)
-	// 	    $scope.surahs = response.data.data.surahs;
-	// 	    $scope.identifier = identifier;
-	// 	    $scope.editions = [];
-	// 	  }, function errorCallback(response) {
-	// 	    console.log(response);
-	// 	  });
-	// };
-
-	// apiService
-	// 	.getSurah(identifier,surahNumber)
-	// 	.then(function successCallback(response) {
-	// 		//Store the data object in $scope.surahs
-	// 		console.log(response.data.data)
-	// 	    $scope.surahs = response.data.data.surahs;
-	// 	    $scope.identifier = identifier;
-	// 	    $scope.editions = [];
-	// 	}, function errorCallback(response) {
-	// 	    console.log(response);
-	// 	});
-
 });
 
 
 app.controller('ayahsCtrl',function ($scope,$http,$stateParams,apiService) {
 
-	var identifier = $stateParams.identifier;
 	var surahNumber = $stateParams.surahNumber;
 
 	apiService
-		.getSurah(surahNumber,identifier)
+		.getSurah(surahNumber,$rootScope.identifier)
 		.then(function successCallback(response) {
 			//Store the data object in $scope.ayahs
 		    $scope.ayahs = response.data.data.ayahs;
@@ -132,18 +99,8 @@ app.controller('juzCtrl',function ($scope,$http,$stateParams,apiService) {
 });
 
 app.controller('resourcesCtrl',function ($scope,$http,$stateParams,apiService) {
+	
 	var type = $stateParams.type;
-	// $scope.chooseResources = function () {
-	// 	$http({
-	// 	  method: 'GET',
-	// 	  url: 'http://api.alquran.cloud/edition/type/' + type
-	// 	}).then(function successCallback(response) {
-	// 		//Store the data object in $scope.resources
-	// 	    $scope.resources = response.data.data;
-	// 	  }, function errorCallback(response) {
-	// 	    console.log(response);
-	// 	  });
-	// };
 
 	apiService
 		.getType(type)
@@ -229,11 +186,4 @@ app.service('apiService', function($http){
 				  url: 'http://api.alquran.cloud/edition/type/' + type
 				})
 	};
-
-	// this.getSurah = function (identifier,surahNumber) {
-	// 	return $http({
-	// 	  method: 'GET',
-	// 	  url: 'http://api.alquran.cloud/surah/'+ identifier + surahNumber
-	// 	})
-	// };
 })
